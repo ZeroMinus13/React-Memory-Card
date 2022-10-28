@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import Ui from './component/Ui';
+import Memorycards from './component/Memorycards';
 
 function App() {
+  const [images, setImages] = useState([]);
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(score);
+  function play(e) {
+    setImages(images + e.target.src);
+    if (images.includes(e.target.src)) {
+      if (score > bestScore) return setBestScore(score);
+      setScore(0);
+      setImages([]);
+    } else {
+      setScore(score + 1);
+    }
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Ui score={score} bestScore={bestScore} />
+      <Memorycards play={play} />
     </div>
   );
 }
